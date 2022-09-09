@@ -5,7 +5,7 @@ const NavBar = () => {
   return (
     <ul>
         <li>Welcome User</li>
-        <li>Home</li>
+        <li> <a href='/'>Home</a></li>
         <li>My Recipes</li>
         <li className='last'>Sign Out</li>
     </ul>
