@@ -15,10 +15,14 @@ const Grid = styled.div `
 `
 const Card = styled.div`
  div{
+  display: flex;
+  flex-direction:column;
+  justify-content: space-evenly;
   border: 2px solid #E18942;
-  border-radius: 2rem;
+  box-sizing:border-box!important;
   max-width: 300px;
-  min-height: 350px;
+ 
+  
  }
 
   img{
@@ -26,7 +30,8 @@ const Card = styled.div`
     border-radius: 2rem;
     display: flex;
     justify-content: center;
-    margin: 30px;
+    margin: 0 30px 50px 30px;
+  
 }
 h3{
   display: flex;
@@ -34,13 +39,26 @@ h3{
   text-decoration: underline;
   color: #CC5500;
   padding: 10px;
+  min-height: 70px;
+  margin-bottom: 0px;
+ 
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 button{
+  display: block;
+  width: 100%;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  border-top: 2px solid #E18942; 
   background-color: #CC5500;
+  height: 40px;
   color: white;
-  border-radius: 2rem;
-  display: flex;
-  justify-content: flex-start;
+ 
+  
+ 
+
   
 }
 `
@@ -74,9 +92,12 @@ const Searched = () => {
           
             <div>
               <h3>{r.title}</h3>
+              
               <img src={r.image} alt={r.title} />
               <Link to={'/recipes/' + r.id}>
+              
               <button>View Recipe</button>
+              
               </Link>
             </div>
            

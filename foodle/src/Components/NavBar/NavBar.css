@@ -18,3 +18,8 @@ li{
 .last{
     padding-right: 15px;
 }
+
+a{
+    text-decoration: none;
+    color: #63666A;
+}

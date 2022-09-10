@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import NavBar from '../Components/NavBar/NavBar'
+
 
 
 import React from 'react'
@@ -22,35 +22,42 @@ const ViewRecipe = () => {
         fetchDetails();
     }, [params.name]);
 
-  return (
+  return ( 
+    <div>
+    {/* <LogoWrapper>Foodle</LogoWrapper> */}
     <RecipeWrapper>
-        <NavBar />
-        <LogoWrapper>Foodle</LogoWrapper>
+     
         <div>
             <h2>{details.title}</h2>
-            <button>Add To My Recipes</button>
-            <img src={details.image} alt={details.title} />
+            <h4>Ready in {details.readyInMinutes} minutes</h4>
+            <h4>Makes {details.servings}</h4>
+            <img src={details.image} alt={details.title} /> <br/>
+            <div className='button'>
+                <button>Add To My Recipes</button>
+            </div>
         </div>
          
-            <h3>Ingredients</h3> 
-            <ul>
+            <h3>Ingredients</h3>
+            
+            {/* <ul>
                 {details.extendedIngredients.map((ingredient) => (
-                <li key={ingredient.id}>{ingredient.original}</li>
-                ))}
-            </ul>
-
-               <h3>Instructions</h3>       
-          
-
-                
-
-                
-      
+                    <li key={ingredient.id}>{ingredient.original}</li>
+                )
+                )}
+           
+            </ul> */}
 
        
-  
-    </RecipeWrapper>
+               <h3>Preparation</h3>
+      
+               {/* <ol>
+                {details.analyzedInstructions.map((instruction)=>(
+                    <li key={instruction.id}>{instruction.step}</li>
+                ))}
+               </ol> */}
 
+    </RecipeWrapper>
+    </div>
   )
 }
 
@@ -70,14 +77,25 @@ padding-left: 43px;
 
 
 const RecipeWrapper = styled.div`
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-    display: flex;
+
+    img{
+        margin-top: 10px;
+    }
+
     h2{
-        margin-bottom: 2rem;
+    
         color: #CC5500;
+        margin-bottom: 5px;
     }
     h3{
+        color: #CC5500;
+        margin-bottom: 5px;
+        text-decoration: underline;
+    }
+
+    h4{
+        margin-top: 0px;
+        margin-bottom: 0px;
         color: #CC5500;
     }
     li{
@@ -88,15 +106,20 @@ const RecipeWrapper = styled.div`
         margin-top: 2rem
     }
 
-`
-
-const Recipe = styled.div`
-    margin-left: 10rem;
-    h3{
-        color: #CC5500; 
+    .button{
+        display: flex;
+        justify-content: center;
     }
+    button{
+        display: block;
+        min-width: 561px;
+        border: 2px solid #E18942; 
+        background-color: #CC5500;
+        height: 40px;
+        color: white;
+        font-size: 16px;
+    }
+
 `
-
-
 
 export default ViewRecipe
