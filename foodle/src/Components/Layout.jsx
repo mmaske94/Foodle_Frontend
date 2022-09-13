@@ -1,10 +1,12 @@
 import React from 'react'
 import NavBar from './NavBar/NavBar'
 
-const Layout = ({children}) => {
+
+const Layout = ({children, user, setUser}) => {
+  console.log(children)
   return (
     <div>
-        <NavBar/>
+        <NavBar user={user} setUser={setUser}/>
         {children}
     </div>
   )

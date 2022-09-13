@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
-import axios from 'axios'
+import axios from '../Axios'
 import styled from 'styled-components'
 import {useNavigate} from 'react-router-dom'
 
-const Login = (setUser) => {
+const Login = ({setUser}) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -14,16 +14,16 @@ const Login = (setUser) => {
     if(!email  || !password){
       return alert('Please Fill Out The Appropriate Fields')
     }
-    axios.post('http://localhost:4000/login', {email, password})
+    axios.post('/auth/login', {email, password})
     .then(({data}) => {
-      localStorage.setItem('token',data.token);
+      localStorage.setItem('token', data.token);
       setUser(data);
-      navigate('/');
+      navigate('/', { replace: true});
     })
     .catch(err => console.log(err));
   }
   return (
-    <div>
+    <Wrapper>
         <WelcomeLoginWrapper>
           <h1>Foodle</h1>
         </WelcomeLoginWrapper>
@@ -46,20 +46,26 @@ const Login = (setUser) => {
             value={password} 
             placeholder='Password'
             required/><br/>
-
+          <div>
             <button>Login</button>
-
+          </div>
         </form>
         </InputLoginWrapper>
-    </div>
+    </Wrapper>
   )
 }
 
 
 
+
+const Wrapper= styled.div`
+
+`
 const WelcomeLoginWrapper = styled.div`
 
  margin-top: 150px;
+ display: flex;
+ justify-content: center;
 
 h1{
 font-family: 'Open Sans', sans-serif;
@@ -67,7 +73,8 @@ font-weight: 600;
 font-size: 75px;
 color: #CC5500;
 margin: 0px;
-margin-left: 15px;
+margin-left: 32px;
+
 
 
 }
@@ -76,6 +83,12 @@ margin-left: 15px;
 
 const InputLoginWrapper = styled.div`
 margin-top:0;
+display: flex;
+justify-content: center;
+
+div{
+  margin-left: 20px;
+}
 
 .input{
 
@@ -84,7 +97,7 @@ margin-top:0;
   border: solid 1px #E18942;
   padding-left: 10px;
   border-radius: 25px;
-  width: 20%;
+  width: 100%;
   outline: none;
   margin: 7px;
 }
@@ -94,7 +107,7 @@ button{
   color: white;
   border: 1px solid #63666A;
   border-radius: 2rem;
-  width: 10%;
+  width: 100%;
   font-size: 16px;
   margin: 3px;
 }

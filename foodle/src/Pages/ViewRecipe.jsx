@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-
-
-
+import axios from '../Axios'
 import React from 'react'
 
-const ViewRecipe = () => {
+
+const ViewRecipe = ({user}) => {
 
     let params = useParams();
     const [details, setDetails] = useState({})
+   
 
     const fetchDetails = async () => {
         const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${process.env.REACT_APP_API_KEY}`)
@@ -18,13 +18,17 @@ const ViewRecipe = () => {
         console.log(detailData)
     };
 
+    const handleAddToRecipes = () => {
+        // axios.post('/addToRecipes', {detailDataID: detailData.id})
+        // .then(res => console.log(res))
+        // .catch(err => console.log(err))
+    }
     useEffect(() => {
         fetchDetails();
     }, [params.name]);
 
   return ( 
     <div>
-    {/* <LogoWrapper>Foodle</LogoWrapper> */}
     <RecipeWrapper>
      
         <div>
@@ -32,51 +36,90 @@ const ViewRecipe = () => {
             <h4>Ready in {details.readyInMinutes} minutes</h4>
             <h4>Makes {details.servings}</h4>
             <img src={details.image} alt={details.title} /> <br/>
+           
+           {user && (
             <div className='button'>
-                <button>Add To My Recipes</button>
+         
+                <button onClick={handleAddToRecipes}>Add To My Recipes</button>
+              
             </div>
+         )}  
         </div>
+    </RecipeWrapper>
+
+    <OtherWrapper>
          
             <h3>Ingredients</h3>
-            
-            {/* <ul>
-                {details.extendedIngredients.map((ingredient) => (
-                    <li key={ingredient.id}>{ingredient.original}</li>
+
+                 { <ul className='unordered'>
+                {details.extendedIngredients?.map((ingredient) => (
+                    <li  className='bullets' key={ingredient.id}>{ingredient.original}</li>
                 )
                 )}
            
-            </ul> */}
-
+            </ul>} <br/>
        
                <h3>Preparation</h3>
-      
-               {/* <ol>
-                {details.analyzedInstructions.map((instruction)=>(
-                    <li key={instruction.id}>{instruction.step}</li>
-                ))}
-               </ol> */}
 
-    </RecipeWrapper>
+               {
+                <ol className='ordered'>
+                    {details.analyzedInstructions?.map((instructions)=>(
+                      instructions.steps?.map((instruction) => (
+                       <li className='bulletss' key={instruction.id}>{instruction.step}</li> 
+                    ))))}
+                </ol>
+               }
+      
+             
+
+    </OtherWrapper>
+
+ 
     </div>
   )
 }
 
-const LogoWrapper = styled.h1`
-font-family: 'Open Sans', sans-serif;
-font-weight: 600;
-font-size: 75px;
-color: #CC5500;
-margin: 0;
-display: flex;
-justify-content: center;
-padding-left: 43px;
+const OtherWrapper = styled.div`
+.unordered{
+    display: flex;
+    flex-direction: column;
+    padding-left: 425px;
+}
+h3{
+    display: flex;
+    justify-content: center;
+    color: #CC5500;
+    margin-bottom: 5px;
+    text-decoration: underline;
 }
 
+.bullets{
+    list-style-position: initial;
+    list-style-image: initial;
+    list-style-type: circle;
+    padding-left: 0px;
+    font-size: 16px;
+   
+}
+
+.bulletss{
+    list-style-type: number;
+    padding-left: 0px;
+    font-size: 16px;
+}
+
+.ordered{
+    display: flex; 
+    flex-direction: column;
+    padding-left: 425px;
+}
 `
 
 
 
 const RecipeWrapper = styled.div`
+display: flex;
+justify-content: center;
 
     img{
         margin-top: 10px;
@@ -86,25 +129,23 @@ const RecipeWrapper = styled.div`
     
         color: #CC5500;
         margin-bottom: 5px;
+        display: flex;
+        justify-content: center;
     }
-    h3{
-        color: #CC5500;
-        margin-bottom: 5px;
-        text-decoration: underline;
-    }
+   
 
     h4{
         margin-top: 0px;
         margin-bottom: 0px;
         color: #CC5500;
+        display: flex;
+        justify-content: center;
     }
     li{
       font-size: 1.2rem;
       line0hegiht: 2.5rem  
     }
-    ul{
-        margin-top: 2rem
-    }
+
 
     .button{
         display: flex;
