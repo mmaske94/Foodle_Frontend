@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = (process.env.MONGODB || 'http://localhost:4000');
 axios.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("token");
