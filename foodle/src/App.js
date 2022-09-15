@@ -16,26 +16,27 @@ function App() {
 
   useEffect(()=>{
     axios.post('auth/auto').then(({data}) => setUser(data))
-    console.log(user)
   }, [])
+  console.log(user)
 return (
 
       <Layout user={user} setUser={setUser}>
-
+       
       <Routes>
         <Route path ='/signup' element={<SignUp setUser={setUser}/>}/>
         <Route path ='/login' element={<Login setUser={setUser}/>}/>
         <Route path='/' element={<Home />}/>
         <Route path='/searched/:search'element={<Searched />} />
-        <Route path='/recipes/:name' element={<ViewRecipe user={user}/>} />
-        { user && (
+        <Route path='/recipes/:name' element={<ViewRecipe user={user} setUser={setUser}/>} />
+        {user && (
         <Route path='/myrecipes' element={<MyRecipes user={user}/>} />
         )}
       </Routes>
 
     </Layout>
+     
   );
-  
+
 }
 
 export default App;

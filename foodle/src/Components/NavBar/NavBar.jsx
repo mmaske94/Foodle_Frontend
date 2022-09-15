@@ -17,9 +17,9 @@ const NavBar = ({user, setUser}) => {
   return (
     <ul>
         <li> <a href='/'>Home</a></li>
-        {user && (
+        {user && ( 
         <li><a href='/myrecipes'>My Recipes</a></li>
-        )}
+         )} 
         {!user && (
           <>
         <li><a href='/signup'>Sign Up</a></li>

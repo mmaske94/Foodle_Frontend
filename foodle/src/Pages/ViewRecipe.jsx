@@ -5,7 +5,7 @@ import axios from '../Axios'
 import React from 'react'
 
 
-const ViewRecipe = ({user}) => {
+const ViewRecipe = ({user, setUser}) => {
 
     let params = useParams();
     const [details, setDetails] = useState({})
@@ -16,16 +16,38 @@ const ViewRecipe = ({user}) => {
         const detailData = await data.json();
         setDetails(detailData);
         console.log(detailData)
+        
     };
 
-    const handleAddToRecipes = () => {
-        // axios.post('/addToRecipes', {detailDataID: detailData.id})
-        // .then(res => console.log(res))
-        // .catch(err => console.log(err))
+    const handleAddToRecipes = async () => {
+        const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${process.env.REACT_APP_API_KEY}`)
+        const detailData = await data.json();
+        axios.post('/auth/addToRecipes', {detailDataID: detailData.id})
+
+        .then(({data}) => {
+            setUser(data)
+            alert('Meal Added To Your Recipes')
+        })
+        .catch(err => console.log(err))
+    }
+
+
+    const handleRemoveFromRecipes = async () => {
+        const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${process.env.REACT_APP_API_KEY}`)
+        const detailData = await data.json();
+        axios.post('auth/removeFromRecipes', {detailDataID: detailData.id})
+        .then(({data}) => {
+            setUser(data)
+            console.log(user)
+            alert('Meal Removed To Your Recipes')
+        })
+        .catch(err => console.log(err))
     }
     useEffect(() => {
         fetchDetails();
     }, [params.name]);
+
+    console.log(user)
 
   return ( 
     <div>
@@ -38,11 +60,16 @@ const ViewRecipe = ({user}) => {
             <img src={details.image} alt={details.title} /> <br/>
            
            {user && (
-            <div className='button'>
+           
+            <>
+           
+                <div className='button'>
+                    <button onClick={handleAddToRecipes}>Add To My Recipes</button>
+                </div> 
+                    <button onClick={handleRemoveFromRecipes}>Remove From Recipes</button>
          
-                <button onClick={handleAddToRecipes}>Add To My Recipes</button>
-              
-            </div>
+           </>
+          
          )}  
         </div>
     </RecipeWrapper>

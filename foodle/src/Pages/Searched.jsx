@@ -95,7 +95,6 @@ const Searched = () => {
               
               <img src={r.image} alt={r.title} />
               <Link to={'/recipes/' + r.id}>
-              
               <button>View Recipe</button>
               
               </Link>
